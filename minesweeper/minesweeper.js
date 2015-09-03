@@ -74,54 +74,60 @@ $(document).ready(function() {
   }
 
   function crawlBoard(coord, startCoord){
-    if(startCoord){
-      var startCoord = startCoord;
-    } else {
-      var startCoord = coord;
-    }
-
-    board[coord].revealed = "yes";
-
-    console.log(board[coord]);
-    // check if it is a bomb
-    if(board[coord].bomb === 'yes' && coord == startCoord){
-      console.log("Kablooom hit bomb at: " +coord);
-      return;
-    } else {
-      // var coordUp = findCoordUp(coord);
-      var coordDown = findCoordDown(coord);
-      // var coordLeft = findCoordLeft(coord);
-      // var coordRight = findCoordRight(coord);
-
-      // if(coordUp !== null && board[coordUp].bomb === 'yes'){
-      //   markBomb(coordUp, coord, startCoord, 'up');
-      // } else {
-      //   if(coordUp !== null){
-      //     crawlBoard(coordUp, startCoord);
-      //   }
-      // }
-      if(board[coordDown].bomb === 'yes'){
-        markBomb(coordDown, coord, startCoord, 'down');
+      if(startCoord){
+        var startCoord = startCoord;
       } else {
-        crawlBoard(coordDown, startCoord);
-        return;
+        var startCoord = coord;
       }
-      // if(coordLeft !== null && board[coordLeft].bomb === 'yes'){
-      //   markBomb(coordLeft, coord, startCoord, 'left');
-      // } else {
-      //   if(coordLeft !== null){
-      //     crawlBoard(coordLeft, startCoord);
-      //   }
-      // }
-      // if(coordRight !== null && board[coordRight].bomb === 'yes'){
-      //   markBomb(coordRight, coord, startCoord, 'right');
-      // } else {
-      //   if(coordRight !== null){
-      //     crawlBoard(coordRight, startCoord);
-      //   }
-      // }
-      return "you win";
-    }
+
+      board[coord].revealed = "yes";
+
+      // check if it is a bomb
+      if(board[coord].bomb === 'yes' && coord == startCoord){
+        console.log("Kablooom hit bomb at: " +coord);
+        return;
+      } else {
+        // var coordUp = findCoordUp(coord);
+        var coordDown = findCoordDown(coord);
+        // var coordLeft = findCoordLeft(coord);
+        // var coordRight = findCoordRight(coord);
+
+        // if(coordUp !== null && board[coordUp].bomb === 'yes'){
+        //   markBomb(coordUp, coord, startCoord, 'up');
+        // } else {
+        //   if(coordUp !== null){
+        //     crawlBoard(coordUp, startCoord);
+        //   }
+        // }
+        var arr = coord.split(",");
+        var y = parseInt(arr[1]);
+        if(y !== max-1){
+          console.log(board[coordDown]);
+            if(board[coordDown].bomb === 'yes'){
+              markBomb(coordDown, coord, startCoord, 'down');
+            } else {
+              crawlBoard(coordDown, startCoord);
+            }
+            // if(coordLeft !== null && board[coordLeft].bomb === 'yes'){
+            //   markBomb(coordLeft, coord, startCoord, 'left');
+            // } else {
+            //   if(coordLeft !== null){
+            //     crawlBoard(coordLeft, startCoord);
+            //   }
+            // }
+            // if(coordRight !== null && board[coordRight].bomb === 'yes'){
+            //   markBomb(coordRight, coord, startCoord, 'right');
+            // } else {
+            //   if(coordRight !== null){
+            //     crawlBoard(coordRight, startCoord);
+            //   }
+            // }
+          // }
+        } else {
+          console.log("reached end of board!");
+          return;
+        }
+      }
   }
 
 
@@ -137,12 +143,18 @@ $(document).ready(function() {
   }
 
   function findCoordDown(coord){
-    var arr = coord.split(",");
-    var newY = parseInt(arr[1])+1;
-    if(newY >=0 && newY < max){
-      console.log(arr[0]+ "," +newY);
-      return arr[0]+ "," +newY;
+      var arr = coord.split(",");
+      var y = parseInt(arr[1]);
+    if(y < max){
+      var newY = parseInt(arr[1])+1;
+      if(newY >=0 && newY < max){
+        console.log(arr[0]+ "," +newY);
+        return arr[0]+ "," +newY;
+      } else {
+        return;
+      }
     } else {
+      console.log("reached end of board");
       return;
     }
   }
@@ -169,7 +181,7 @@ $(document).ready(function() {
 
   // I N I T
   createGrid(4);
-  setTimeout(function(){ crawlBoard("2,2"); }, 2000);
+  setTimeout(function(){ crawlBoard("2,0"); }, 2000);
 });
 
 
