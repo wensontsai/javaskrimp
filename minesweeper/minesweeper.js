@@ -14,6 +14,9 @@ $(document).ready(function() {
         coord = generateRandomCoord(num);
         if(!(bombsArray.indexOf(coord) > -1)){
           bombsArray.push(coord);
+          var arr = coord.split(",");
+          var output = arr[0]+ "\\," +arr[1];
+          $("#"+output).addClass('bomb');
         }
       }
     console.log(bombsArray);
@@ -143,6 +146,9 @@ $(document).ready(function() {
     if(x > 0){
       var newX = parseInt(arr[0])-1;
       if(newX >=0 && newX < max){
+        var output = newX+ "\\," +arr[1];
+        console.log('#'+output);
+        $("#"+output).addClass('revealed');
         return newX+ "," +arr[1];
       } else {
         return;
@@ -159,6 +165,10 @@ $(document).ready(function() {
     if(x < max-1){
       var newX = parseInt(arr[0])+1;
       if(newX >=0 && newX < max){
+        var output = newX+ "\\," +arr[1];
+        console.log('#'+output);
+        console.log($("."+output) );
+        $("#"+output).addClass("revealed");
         return newX+ "," +arr[1];
       } else {
         return;
@@ -175,6 +185,9 @@ $(document).ready(function() {
     if(y > 0){
       var newY = parseInt(arr[1])-1;
       if(newY >=0 && newY < max){
+        var output = arr[0]+ "\\," +newY;
+        console.log('#'+output);
+        $("#"+output).addClass('revealed');
         return arr[0]+ "," +newY;
       } else {
         return;
@@ -191,7 +204,10 @@ $(document).ready(function() {
     if(y < max-1){
       var newY = parseInt(arr[1])+1;
       if(newY >=0 && newY < max){
-        console.log(arr[0]+ "," +newY);
+        // console.log(arr[0]+ "," +newY);
+        var output = arr[0]+ "\\," +newY;
+        console.log('#'+output);
+        $('#'+output).addClass('revealed');
         return arr[0]+ "," +newY;
       } else {
         return;
