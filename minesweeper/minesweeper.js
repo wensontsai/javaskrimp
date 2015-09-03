@@ -2,6 +2,7 @@ $(document).ready(function() {
   var board = {};
   var bombsArray = [];
   var max = 0;
+  var completedArray = [];
 
   function generateRandomCoord(num){
       x = Math.floor((Math.random() * num));
@@ -18,7 +19,6 @@ $(document).ready(function() {
     console.log(bombsArray);
     return bombsArray.sort();
   }
-
   function createGrid(num){
     max = num;
     console.log(max);
@@ -46,34 +46,22 @@ $(document).ready(function() {
         }
       }
     }
-
-
     console.log(board);
   }
-
-
-
-
   function markBomb(coord, origCoord, startCoord, dir){
     var squaresAway = 0;
-
     if(dir === 'up'){
-
     }
     if(dir === 'down'){
-
     }
     if(dir === 'left'){
-
     }
     if(dir === 'right'){
-
     }
     console.log("stopped at: " +origCoord+ " -> bomb at " +coord);
-    return;
+    // return;
   }
-
-  function crawlBoard(coord, startCoord){
+  function crawlBoard(coord, startCoord, direction){
       if(startCoord){
         var startCoord = startCoord;
       } else {
@@ -87,65 +75,120 @@ $(document).ready(function() {
         console.log("Kablooom hit bomb at: " +coord);
         return;
       } else {
-        // var coordUp = findCoordUp(coord);
+        var coordUp = findCoordUp(coord);
         var coordDown = findCoordDown(coord);
-        // var coordLeft = findCoordLeft(coord);
-        // var coordRight = findCoordRight(coord);
+        var coordLeft = findCoordLeft(coord);
+        var coordRight = findCoordRight(coord);
 
-        // if(coordUp !== null && board[coordUp].bomb === 'yes'){
-        //   markBomb(coordUp, coord, startCoord, 'up');
-        // } else {
-        //   if(coordUp !== null){
-        //     crawlBoard(coordUp, startCoord);
-        //   }
-        // }
-        var arr = coord.split(",");
-        var y = parseInt(arr[1]);
-        if(y !== max-1){
+
+        if(direction === 'left'){
+          var arr = coord.split(",");
+          var left_x = parseInt(arr[0]);
+        }
+        if(direction === 'right'){
+          var arr = coord.split(",");
+          var right_x = parseInt(arr[0]);
+        }
+        if(direction === 'up'){
+          var arr = coord.split(",");
+          var up_y = parseInt(arr[1]);
+        }
+        if(direction === 'down'){
+          var arr = coord.split(",");
+          var down_y = parseInt(arr[1]);
+        }
+
+        if(left_x !== 0 && (completedArray.indexOf('left') < 0) ){
+          console.log(coordLeft);
+          console.log(board[coordLeft]);
+            if(board[coordLeft].bomb === 'yes'){
+              markBomb(coordLeft, coord, startCoord, 'left');
+            } else {
+              crawlBoard(coordLeft, startCoord, 'left');
+            }
+        } else if(right_x !== max-1 && (completedArray.indexOf('right') < 0) ){
+          console.log(coordRight);
+          console.log(board[coordRight]);
+            if(board[coordRight].bomb === 'yes'){
+              markBomb(coordRight, coord, startCoord, 'right');
+            } else {
+              crawlBoard(coordRight, startCoord, 'right');
+            }
+        } else if(down_y !== max-1 && (completedArray.indexOf('down') < 0) ){
+          console.log(coordDown);
           console.log(board[coordDown]);
             if(board[coordDown].bomb === 'yes'){
               markBomb(coordDown, coord, startCoord, 'down');
             } else {
-              crawlBoard(coordDown, startCoord);
+              crawlBoard(coordDown, startCoord, 'down');
             }
-            // if(coordLeft !== null && board[coordLeft].bomb === 'yes'){
-            //   markBomb(coordLeft, coord, startCoord, 'left');
-            // } else {
-            //   if(coordLeft !== null){
-            //     crawlBoard(coordLeft, startCoord);
-            //   }
-            // }
-            // if(coordRight !== null && board[coordRight].bomb === 'yes'){
-            //   markBomb(coordRight, coord, startCoord, 'right');
-            // } else {
-            //   if(coordRight !== null){
-            //     crawlBoard(coordRight, startCoord);
-            //   }
-            // }
-          // }
+        } else if (up_y !== 0 && (completedArray.indexOf('up') < 0)){
+          console.log(board[coordUp]);
+            if(board[coordUp].bomb === 'yes'){
+              markBomb(coordUp, coord, startCoord, 'up');
+            } else {
+              crawlBoard(coordUp, startCoord, 'up');
+            }
         } else {
+          console.log(board);
           console.log("reached end of board!");
           return;
         }
       }
   }
 
-
-
-  function findCoordUp(coord){
+  function findCoordLeft(coord){
     var arr = coord.split(",");
-    var newY = parseInt(arr[1])-1;
-    if(newY >=0 && newY < max){
-      return arr[0]+ "," +newY;
+    var x = parseInt(arr[0]);
+    if(x > 0){
+      var newX = parseInt(arr[0])-1;
+      if(newX >=0 && newX < max){
+        return newX+ "," +arr[1];
+      } else {
+        return;
+      }
     } else {
+      console.log("reached end of board - LEFT");
+      completedArray.push("left");
       return;
     }
   }
-
+  function findCoordRight(coord){
+    var arr = coord.split(",");
+    var x = parseInt(arr[0]);
+    if(x < max-1){
+      var newX = parseInt(arr[0])+1;
+      if(newX >=0 && newX < max){
+        return newX+ "," +arr[1];
+      } else {
+        return;
+      }
+    } else {
+      console.log("reached end of board - RIGHT");
+      completedArray.push("right");
+      return;
+    }
+  }
+  function findCoordUp(coord){
+      var arr = coord.split(",");
+      var y = parseInt(arr[1]);
+    if(y > 0){
+      var newY = parseInt(arr[1])-1;
+      if(newY >=0 && newY < max){
+        return arr[0]+ "," +newY;
+      } else {
+        return;
+      }
+    } else {
+      console.log("reached end of board - UP");
+      completedArray.push("up");
+      return;
+    }
+  }
   function findCoordDown(coord){
       var arr = coord.split(",");
       var y = parseInt(arr[1]);
-    if(y < max){
+    if(y < max-1){
       var newY = parseInt(arr[1])+1;
       if(newY >=0 && newY < max){
         console.log(arr[0]+ "," +newY);
@@ -154,34 +197,18 @@ $(document).ready(function() {
         return;
       }
     } else {
-      console.log("reached end of board");
+      console.log("reached end of board - DOWN");
+      completedArray.push("down");
       return;
     }
   }
 
-  function findCoordLeft(coord){
-    var arr = coord.split(",");
-    var newX = parseInt(arr[0])-1;
-    if(newX >=0 && newX < max){
-      return newX+ "," +arr[1];
-    } else {
-      return;
-    }
-  }
 
-  function findCoordRight(coord){
-    var arr = coord.split(",");
-    var newX = parseInt(arr[0])+1;
-    if(newX >=0 && newX < max){
-      return newX+ "," +arr[1];
-    } else {
-      return;
-    }
-  }
+
 
   // I N I T
   createGrid(4);
-  setTimeout(function(){ crawlBoard("2,0"); }, 2000);
+  setTimeout(function(){ crawlBoard("2,2"); }, 2000);
 });
 
 
