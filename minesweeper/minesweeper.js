@@ -3,6 +3,7 @@ $(document).ready(function() {
   var bombsArray = [];
   var max = 0;
   var completedArray = [];
+  var chosen = '';
 
   function generateRandomCoord(num){
       x = Math.floor((Math.random() * num));
@@ -44,7 +45,8 @@ $(document).ready(function() {
             x: i,
             y: j,
             revealed: 'no',
-            bomb: 'no'
+            bomb: 'no',
+            fromBomb: 0
            };
         }
       }
@@ -52,18 +54,9 @@ $(document).ready(function() {
     console.log(board);
   }
   function markBomb(coord, origCoord, startCoord, dir){
-    var squaresAway = 0;
-    if(dir === 'up'){
-    }
-    if(dir === 'down'){
-    }
-    if(dir === 'left'){
-    }
-    if(dir === 'right'){
-    }
     console.log("stopped at: " +origCoord+ " -> bomb at " +coord);
-    // return;
   }
+
   function crawlBoard(coord, startCoord, direction){
       if(startCoord){
         var startCoord = startCoord;
@@ -78,6 +71,7 @@ $(document).ready(function() {
         console.log("Kablooom hit bomb at: " +coord);
         return;
       } else {
+
         var coordUp = findCoordUp(coord);
         var coordDown = findCoordDown(coord);
         var coordLeft = findCoordLeft(coord);
@@ -100,6 +94,7 @@ $(document).ready(function() {
           var arr = coord.split(",");
           var down_y = parseInt(arr[1]);
         }
+
 
         if(left_x !== 0 && (completedArray.indexOf('left') < 0) ){
           console.log(coordLeft);
@@ -138,6 +133,80 @@ $(document).ready(function() {
           return;
         }
       }
+  }
+  function markNeighbors(coords){
+
+  }
+
+  function crawlBoard(coords, chosen){
+    var nextCoords = [];
+
+    // 1.  take coordinate
+    //      check to see if it's a bomb
+    for (coord in coords){
+      if(board[coord].bomb === 'yes' && chosen = 'yes'){
+            console.log("Kablooom hit bomb at: " +coord);
+            return;
+      } else {
+    // 2.  increment coordinates
+        var coordUp = findCoordUp(coord);
+        var coordDown = findCoordDown(coord);
+        var coordLeft = findCoordLeft(coord);
+        var coordRight = findCoordRight(coord);
+        nextCoords.push(coordUp);
+        nextCoords.push(coordDown);
+        nextCoords.push(coordLeft);
+        nextCoords.push(coordRight);
+    // 3.  if coords are on board, and not yet revealed, put into nextCoords
+        for(var i=0; i<nextCoords.length; i++){
+          var arr = coord.split(",");
+          var x = parseInt(arr[0]);
+          var y = parseInt(arr[1]);
+          if(x >= 0 && x < max && y >= 0 && y < max){
+            if(board[nextCoords[i]].revealed !== "yes"){
+              if(){
+
+              } else {
+                board[nextCoords[i]].revealed = "yes";
+              }
+            } else {
+              return;
+            }
+
+          } else {
+            return;
+          }
+
+        }
+
+
+            var preliminaryCoords = [coordUp, coordDown, coordLeft, coordRight];
+            for(var i=0; i<preliminaryCoords.length; i++){
+
+            }
+          }
+
+      } else {
+          if(board[coord].bomb === 'yes' && coord == startCoord){
+            console.log("Kablooom hit bomb at: " +coord);
+            return;
+          } else {
+
+          }
+      }
+      }
+    // 2.  check to see if inside board
+      var arr = coord.split(",");
+      var x = parseInt(arr[0]);
+      var y = parseInt(arr[1]);
+
+    }
+
+
+
+
+    // 5.  coordinates that are not bomb / not revealed - recurse.
+
   }
 
   function findCoordLeft(coord){
@@ -219,6 +288,11 @@ $(document).ready(function() {
     }
   }
 
+// anywhere that is 1 away from bomb, spreading outwards
+// label 1
+// anywhere that is 2 away from bomb, label 2
+
+// function that generates playing field HTML according to setting
 
 
 
