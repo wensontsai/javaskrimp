@@ -9,8 +9,9 @@ var calc = (function(){
     return value;
   };
 
-  return { increment : increment,
-            get : get
+  return { 
+    increment : increment,
+    get : get
   }
 })();
 

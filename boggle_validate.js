@@ -19,8 +19,6 @@ console.log(board);
 var word = "ACTI6VE";
 //////////////////////////
 
-
-
 function validateWord(word, board){
     var startingLetter;
     // iterate through each row of Board
@@ -43,16 +41,10 @@ function validateWord(word, board){
     }
 };
 
-
-
 validateWord(word, board);
 
 
-
-
 function recurseFind(word, startingCoord, board){
-
-
     if (word.length === 0){
         return "valid";
     } else {
@@ -63,7 +55,6 @@ function recurseFind(word, startingCoord, board){
         var coordDown = determineDown(startingCoord);
         var coordLeft = determineLeft(startingCoord);
         var coordRight = determineRight(startingCoord);
-
 
         if(board[coordUp] === startingLetter){
             console.log(" found " +startingLetter+ " at coord: " +coordUp);
@@ -87,46 +78,46 @@ function recurseFind(word, startingCoord, board){
 }
 
 function determineUp(startingCoord){
-        var coordArray = startingCoord.split(",");
-        if(parseInt(coordArray[0]) >= 0){
-            coordArray[0] = parseInt(coordArray[0]) - 1;
-            coordUp = coordArray.join(",");
-            return coordUp;
-        } else {
-            return startingCoord;
-        }
+    var coordArray = startingCoord.split(",");
+    if(parseInt(coordArray[0]) >= 0){
+        coordArray[0] = parseInt(coordArray[0]) - 1;
+        coordUp = coordArray.join(",");
+        return coordUp;
+    } else {
+        return startingCoord;
+    }
 }
 function determineDown(startingCoord){
-        var coordArray = startingCoord.split(",");
-        if(parseInt(coordArray[0]) >= 0){
-            coordArray[0] = parseInt(coordArray[0]) + 1;
-            coordDown = coordArray.join(",");
-            return coordDown
-        } else {
-            return startingCoord;
-        }
+    var coordArray = startingCoord.split(",");
+    if(parseInt(coordArray[0]) >= 0){
+        coordArray[0] = parseInt(coordArray[0]) + 1;
+        coordDown = coordArray.join(",");
+        return coordDown
+    } else {
+        return startingCoord;
+    }
 }
 function determineLeft(startingCoord){
-        var coordArray = startingCoord.split(",");
-        if(parseInt(coordArray[1]) >= 0){
-            coordArray[1] = parseInt(coordArray[1]) - 1;
-            coordLeft = coordArray.join(",");
-            return coordLeft;
-        } else {
-            return startingCoord;
-        }
+    var coordArray = startingCoord.split(",");
+    if(parseInt(coordArray[1]) >= 0){
+        coordArray[1] = parseInt(coordArray[1]) - 1;
+        coordLeft = coordArray.join(",");
+        return coordLeft;
+    } else {
+        return startingCoord;
+    }
 }
 function determineRight(startingCoord){
-        // console.log(startingCoord);
-        var coordArray = startingCoord.split(",");
-        // console.log(coordArray);
-        if(parseInt(coordArray[1]) >= 0){
-            coordArray[1] = parseInt(coordArray[1]) + 1;
-            coordRight = coordArray.join(",");
-            return coordRight;
-        } else {
-            return startingCoord;
-        }
+    // console.log(startingCoord);
+    var coordArray = startingCoord.split(",");
+    // console.log(coordArray);
+    if(parseInt(coordArray[1]) >= 0){
+        coordArray[1] = parseInt(coordArray[1]) + 1;
+        coordRight = coordArray.join(",");
+        return coordRight;
+    } else {
+        return startingCoord;
+    }
 }
 
 
