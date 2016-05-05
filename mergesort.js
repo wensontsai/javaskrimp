@@ -18,21 +18,14 @@ function merge(left, right){
 
   // insert smaller number into result array first
   // keep comparing
-  while(left.length && right.length){
-    if(left[0] <= right[0]){
-      result.push(left.shift());
+  while(leftIndex < left.length && rightIndex < right.length){
+    if(left[leftIndex] < right[rightIndex]){
+      result.push(left[leftIndex]);
+      leftIndex++;
     } else {
-      result.push(right.shift());
+      result.push(right[rightIndex]);
+      rightIndex++;
     }
   }
-  // grab remaining left
-  while(left.length){
-    result.push(left.shift());
-  }
-  // grab remaining right
-  while(right.length){
-    result.push(right.shift());
-  }
-
-  return result;
+  return result.concat(left.slice(leftIndex).concat(right.slice(rightIndex)));
 }
