@@ -1,3 +1,6 @@
+// currying is a transformation process - we transform a function
+// a design pattern for applying stored arguments (stored through scope) during partial application (applying set of arguments to a function)
+
 function curry(fn){
   var slice = Array.prototype.slice;
   var stored_args = slice.call(arguments, 1);
